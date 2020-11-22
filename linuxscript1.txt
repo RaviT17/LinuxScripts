@@ -1,0 +1,30 @@
+#!/bin/bash
+# check osiris application
+
+SERVICE="FS-CHECK"
+HOSTNAME=$(hostname -f)
+DATE=$(date +"%d.%m.%Y,%H:%M:%S")
+limit=80
+
+count=1
+
+
+for i in `df -hl| grep -i "/tmp\|var\|scratch" | awk '{print $6 "-" $5}' | sed 's/.$//'`
+do
+val=`echo $i | cut -d "-" -f2`
+if [ $val -gt 10 ]
+then
+#echo "`echo $i | cut -d "-" -f1`"  $val
+fs=fs$count
+
+eval $fs=`echo $i | cut -d "-" -f1`
+count=$(($count+1))
+
+fi
+done
+
+
+
+
+
+echo "${HOSTNAME},${SERVICE},${DATE},${fs1} ${fs2} ${fs3} ${fs4}"

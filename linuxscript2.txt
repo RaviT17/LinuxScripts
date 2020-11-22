@@ -1,0 +1,17 @@
+#!/bin/bash
+# check osiris application
+
+SERVICE="LSF lsid check on VDI"
+HOSTNAME=$(hostname -f)
+DATE=$(date +"%d.%m.%Y,%H:%M:%S")
+NATCO=$(get_location)
+POOL=$( hostname | cut -c4-10 | tr [a-z] [A-Z])
+lsid > /dev/null 2>&1
+RE=$?
+
+if [ $RE == 0 ]; then
+   RESULT="OK"
+else
+   RESULT="KO"
+   echo "${HOSTNAME},${RESULT},${NATCO},${POOL},${DATE}" >> ~/myfiles/lsflog.log
+fi
